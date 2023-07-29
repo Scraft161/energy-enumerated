@@ -147,7 +147,7 @@ const energyToAntimatter = (amount) => {
 		return;
 	}
 
-	if (Energy >= amount) {
+	if (Energy >= amount * 100) {
 		Antimatter += amount;
 		Energy -= amount * 100;
 

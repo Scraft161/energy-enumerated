@@ -80,9 +80,8 @@ const updateDisplay = () => {
 		ShopEnumerator.style.display = "block";
 		data["VisibleEnumerator"] = true;
 	}
-	if (divMatter.style.display = "none" && (data["Energy"] >= 10000 || data["VisibleMatter"] == false)) {
-		let divMatter = document.getElementById("div_matter");
-		divMatter.style.display = "block";
+	if (document.getElementById("div_matter").style.display = "none" && (data["Energy"] >= 10000 || data["VisibleMatter"] == false)) {
+		document.getElementById("div_matter").style.display = "block";
 		data["VisibleMatter"] = true;
 	}
 	if (document.getElementById("upgrade_antimatter_unlock").style.display = "none" && (data["Matter"] >= 100 || data["UpgradeUnlockAntimatter"] == false)) {

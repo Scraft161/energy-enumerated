@@ -6,8 +6,8 @@ const upgradeAntimatterUnlock = () => {
 	let unlockElement = document.getElementById("upgrade_antimatter_unlock");
 	let buyAntimatterButton = document.getElementById("div_antimatter");
 	
-	if (Matter >= 500) {
-		Matter -= 500;
+	if (data["Matter"] >= 500) {
+		data["Matter"] -= 500;
 		buyAntimatterButton.style.display = "block";
 		unlockElement.style.display = "none";
 	}
@@ -18,9 +18,9 @@ const upgradeAntimatterUnlock = () => {
 const upgradeEnergyCap1 = () => {
 	let unlockElement = document.getElementById("upgrade_energy_cap_1");
 
-	if (Light >= 200) {
-		EnergyCap = EnergyCap * 2;
-		Light -= 200;
+	if (data["Light"] >= 200) {
+		data["EnergyCap"] = data["EnergyCap"] * 2;
+		data["Light"] -= 200;
 		unlockElement.style.display = "none";
 	}
 	updateDisplay();
@@ -30,9 +30,9 @@ const upgradeEnergyCap1 = () => {
 const upgradeAntimatterCap1 = () => {
 	let unlockElement = document.getElementById("upgrade_antimatter_cap_1");
 
-	if (Light >= 200) {
-		AntimatterCap = AntimatterCap * 5;
-		Light -= 200;
+	if (data["Light"] >= 200) {
+		data["AntimatterCap"] = data["AntimatterCap"] * 5;
+		data["Light"] -= 200;
 		unlockElement.style.display = "none";
 	}
 	updateDisplay();
@@ -42,9 +42,9 @@ const upgradeAntimatterCap1 = () => {
 const upgradeAnnihilationSpeed1 = () => {
 	let unlockElement = document.getElementById("upgrade_annihilation_speed_1");
 
-	if (Light >= 500) {
-		AnnihilationSpeed = 2;
-		Light -= 500;
+	if (data["Light"] >= 500) {
+		data["AnnihilationSpeed"] = 2;
+		data["Light"] -= 500;
 		unlockElement.style.display = "none";
 	}
 
@@ -55,15 +55,15 @@ const upgradeAnnihilationSpeed1 = () => {
 
 /// Multiplier stuff
 const upgradeAnnihilationMultiplier = () => {
-	console.log(AnnihilationMultiplierCount);
+	console.log(data["AnnihilationMultiplierCount"]);
 
-	const cost = fib[AnnihilationMultiplierCount] * 10000;
+	const cost = fib[data["AnnihilationMultiplierCount"]] * 10000;
 
 	console.log(cost);
 
-	if (Light >= cost) {
-		AnnihilationMultiplier = AnnihilationMultiplier * 2;
-		AnnihilationMultiplierCount += 1;
+	if (data["Light"] >= cost) {
+		data["AnnihilationMultiplier"] = data["AnnihilationMultiplier"] * 2;
+		data["AnnihilationMultiplierCount"] += 1;
 	}
 	updateDisplay();
 }

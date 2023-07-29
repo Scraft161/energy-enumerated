@@ -1,32 +1,39 @@
 // precalculated list of fibonacci numbers.
 const fib = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987];
 
-let Energy = 0;
-let Matter = 0;
-let Antimatter = 0;
-let Light = 0;
-let AnnihilationMultiplier = 1;
-let AnnihilationMultiplierCount = 1;
-let AnnihilationSpeed = 1;
+var data
 
-let VisibleEnumerator = false;
-let VisibleMatter = false
-let VisibleAnnihilation = false;
-let VisibleLight = false;
-let VisibleUpgrades = false;
+if(localStorage.getItem("data") === undefined) {
+	console.log("data not found; creating")
+	data = {
+		Energy: 0,
+		EnergyCap: 10000,
+		VisibleUpgradeEnergyCap: false,
+		Matter: 0,
+		MatterCap: 1000,
+		VisibleMatter: false,
+		Antimatter: 0,
+		AntimatterCap: 100,
+		UpgradeUnlockAntimatter: false,
+		VisibleUpgradeAntimatterCap: false,
+		Light: 0,
+		VisibleLight: false,
+		AnnihilationMultiplier: 1,
+		AnnihilationMultiplierCount: 1,
+		AnnihilationSpeed: 1,
+		AnnihilationMultiplierCap: 10,
+		VisibleUpgradeAnnihilationSpeed: false,
+		VisibleAnnihilation: false, 
+		EnumaratorCount: 0,
+		VisibleEnumerator: false,
+		VisibleUpgrades: false
+	};
+} else {
+	console.log ("data imported")
+	data = JSON.parse(localStorage.getItem("data"))
+}
 
-let UpgradeUnlockAntimatter = false;
-let VisibleUpgradeEnergyCap1 = false;
-let VisibleUpgradeAntimatterCap1 = false;
-let VisibleUpgradeAnnihilationSpeed1 = false;
 
-// Resource caps, note that these are *100 compared to what is shown in the UI thanks to floating point math.
-let EnergyCap = 10000;
-let MatterCap = 1000;
-let AntimatterCap = 100;
-let AnnihilationMultiplierCap = 10;
-
-let EnumaratorCount = 0;
 
 // Commonly used DOM elements
 let EnergyDisplay = document.getElementById("main_number");
@@ -53,47 +60,50 @@ ShopEnumerator.style.display = "none";
 
 /// Update all displays, we modify the DOM directly because screw VirtualDOM
 const updateDisplay = () => {
-	EnergyDisplay.innerText = (Energy / 100).toString();
-	MatterDisplay.innerText = (Matter / 100).toString();
-	AntimatterDisplay.innerText = (Antimatter / 100).toString();
-	LightDisplay.innerText = (Light / 10000).toString();
-	AnnihilationSpeedDisplay.innerText = (AnnihilationSpeed / 100).toString();
-	AnnihilationMultiplierDisplay.innerText = AnnihilationMultiplier.toString();
+	EnergyDisplay.innerText = (data["Energy"] / 100).toString();
+	MatterDisplay.innerText = (data["Matter"] / 100).toString();
+	AntimatterDisplay.innerText = (data["Antimatter"] / 100).toString();
+	LightDisplay.innerText = (data["Light"] / 10000).toString();
+	AnnihilationSpeedDisplay.innerText = (data["AnnihilationSpeed"] / 100).toString();
+	AnnihilationMultiplierDisplay.innerText = data["AnnihilationMultiplier"].toString();
 
-	EnumaratorCountDisplay.innerText = EnumaratorCount.toString();
+	EnumaratorCountDisplay.innerText = data["EnumaratorCount"].toString();
 
 	// Caps
-	EnergyCapDisplay.innerText = (EnergyCap / 100).toString();
-	MatterCapDisplay.innerText = (MatterCap / 100).toString();
-	AntimatterCapDisplay.innerText = (AntimatterCap / 100).toString();
+	EnergyCapDisplay.innerText = (data["EnergyCap"] / 100).toString();
+	MatterCapDisplay.innerText = (data["MatterCap"] / 100).toString();
+	AntimatterCapDisplay.innerText = (data["AntimatterCap"] / 100).toString();
 
 	// Resource-based unlocks
-	if (Energy >= 2000 && VisibleEnumerator == false) {
+	if (data["Energy"] >= 2000 && data["VisibleEnumerator"] == false) {
 		let shop = document.getElementById("shop");
 		ShopEnumerator.style.display = "block";
-		VisibleEnumerator = true;
+		data["VisibleEnumerator"] = true;
 	}
-	if (Energy >= 10000 && VisibleMatter == false) {
+	if (data["Energy"] >= 10000 && data["VisibleMatter"] == false) {
 		let divMatter = document.getElementById("div_matter");
 		divMatter.style.display = "block";
-		VisibleMatter = true;
+		data["VisibleMatter"] = true;
 	}
-	if (Matter >= 100 && UpgradeUnlockAntimatter == false) {
+	if (data["Matter"] >= 100 && data["UpgradeUnlockAntimatter"] == false) {
 		document.getElementById("upgrade_antimatter_unlock").style.display = "block";
-		UpgradeUnlockAntimatter = true;
+		data["UpgradeUnlockAntimatter"] = true;
 	}
-	if (Light >= 100 && VisibleUpgradeEnergyCap1 == false) {
+	if (data["Light"] >= 100 && data["VisibleUpgradeEnergyCap"] == false) {
 		document.getElementById("upgrade_energy_cap_1").style.display = "block";
-		VisibleUpgradeEnergyCap1 = true;
+		data["VisibleUpgradeEnergyCap"] = true;
 	}
-	if (Light >= 200 && VisibleUpgradeAntimatterCap1 == false) {
+	if (data["Light"] >= 200 && data["VisibleUpgradeAntimatterCap"] == false) {
 		document.getElementById("upgrade_antimatter_cap_1").style.display = "block";
-		VisibleUpgradeAntimatterCap1 = true;
+		data["VisibleUpgradeAntimatterCap"] = true;
 	}
-	if (Light >= 300 && VisibleUpgradeAnnihilationSpeed1 == false) {
+	if (data["Light"] >= 300 && data["VisibleUpgradeAnnihilationSpeed"] == false) {
 		document.getElementById("upgrade_annihilation_speed_1").style.display = "block";
-		VisibleUpgradeAnnihilationSpeed1 = true;
+		data["VisibleUpgradeAnnihilationSpeed"] = true;
 	}
+	
+	localStorage.setItem("data", JSON.stringify(data))
+	console.log("data saved")
 }
 
 /* FOR MODDERS: DO NOT USE THIS, it was written early on in development as a
@@ -105,9 +115,9 @@ const updateDisplay = () => {
  * instead.
 */
 const incrementEnergy = (amount) => {
-	Energy += amount;
-	if (Energy >= EnergyCap) {
-		Energy = EnergyCap;
+	data["Energy"] += amount;
+	if (data["Energy"] >= data["EnergyCap"]) {
+		data["Energy"] = data["EnergyCap"];
 	}
 	updateDisplay();
 }
@@ -116,10 +126,10 @@ const buyEnumerator = () => {
 	let enumeratorCost = document.getElementById("enumerator_cost");
 	let cost = enumeratorCost.innerText * 100;
 
-	if (Energy >= cost) {
-		EnumaratorCount += 1;	
-		Energy -= cost;
-		enumeratorCost.innerText = (EnumaratorCount * EnumaratorCount) + 20;
+	if (data["Energy"] >= cost) {
+		data["EnumaratorCount"] += 1;	
+		data["Energy"] -= cost;
+		enumeratorCost.innerText = (data["EnumaratorCount"] * data["EnumaratorCount"]) + 20;
 		updateDisplay();
 	}
 }
@@ -127,38 +137,38 @@ const buyEnumerator = () => {
 // Matter & Antimatter
 
 const energyToMatter = (amount) => {
-	if (Matter >= MatterCap) {
+	if (data["Matter"] >= data["MatterCap"]) {
 		return;
 	}
 
-	if (Energy >= amount * 100) {
-		Matter += amount;
-		Energy -= amount * 100;
+	if (data["Energy"] >= amount * 100) {
+		data["Matter"] += amount;
+		data["Energy"] -= amount * 100;
 
-		if (Matter > MatterCap) {
-			Matter = MatterCap;
+		if (data["Matter"] > data["MatterCap"]) {
+			data["Matter"] = data["MatterCap"];
 		}
 	}
 	updateDisplay();
 }
 
 const energyToAntimatter = (amount) => {
-	if (Antimatter >= AntimatterCap) {
+	if (data["Antimatter"] >= data["AntimatterCap"]) {
 		return;
 	}
 
-	if (Energy >= amount * 100) {
-		Antimatter += amount;
-		Energy -= amount * 100;
+	if (data["Energy"] >= amount * 100) {
+		data["Antimatter"] += amount;
+		data["Energy"] -= amount * 100;
 
-		if (Antimatter > AntimatterCap) {
-			Antimatter = AntimatterCap;
+		if (data["Antimatter"] > data["AntimatterCap"]) {
+			data["Antimatter"] = data["AntimatterCap"];
 		}
 	}
 
-	if (VisibleAnnihilation == false) {
+	if (data["VisibleAnnihilation"] == false) {
 		document.getElementById("div_annihilation").style.display = "block";
-		VisibleAnnihilation = true;
+		data["VisibleAnnihilation"] = true;
 	}
 	updateDisplay();
 }
@@ -166,14 +176,14 @@ const energyToAntimatter = (amount) => {
 // Game loop stuffs
 
 const tick = () => {
-	if (Energy < EnergyCap) {
-		let incrementAmount = EnumaratorCount * 10;
+	if (data["Energy"] < data["EnergyCap"]) {
+		let incrementAmount = data["EnumaratorCount"] * 10;
 		// Annihilation
-		if (Matter >= AnnihilationSpeed && Antimatter >= AnnihilationSpeed) {
-			Matter -= AnnihilationSpeed;
-			Antimatter -= AnnihilationSpeed;
-			incrementAmount += AnnihilationSpeed * AnnihilationMultiplier;
-			Light += AnnihilationSpeed;
+		if (data["Matter"] >= data["AnnihilationSpeed"] && data["Antimatter"] >= data["AnnihilationSpeed"]) {
+			data["Matter"] -= data["AnnihilationSpeed"];
+			data["Antimatter"] -= data["AnnihilationSpeed"];
+			incrementAmount += data["AnnihilationSpeed"] * data["AnnihilationMultiplier"];
+			data["Light"] += data["AnnihilationSpeed"];
 		}
 		incrementEnergy(incrementAmount);
 	}
@@ -191,4 +201,6 @@ function sleep(ms) {
 }
 
 // Game Loop
+tick()
 setInterval(tick, 1000);
+

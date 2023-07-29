@@ -75,7 +75,7 @@ const updateDisplay = () => {
 	AntimatterCapDisplay.innerText = (data["AntimatterCap"] / 100).toString();
 
 	// Resource-based unlocks
-	if (data["Energy"] >= 2000 && data["VisibleEnumerator"] == false) {
+	if (ShopEnumerator.style.display == "none" && (data["Energy"] >= 2000 || data["VisibleEnumerator"] == true)) {
 		let shop = document.getElementById("shop");
 		ShopEnumerator.style.display = "block";
 		data["VisibleEnumerator"] = true;
@@ -202,5 +202,6 @@ function sleep(ms) {
 
 // Game Loop
 tick()
+updateDisplay()
 setInterval(tick, 1000);
 

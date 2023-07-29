@@ -1,0 +1,43 @@
+:root {
+	font-family: sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-align: center;
+}
+
+div.header {
+	text-align: center;
+}
+
+#upgrade_list>* {
+	display: none;
+}
+
+#upgrade_annihilation_multiplier {
+	display: none;
+}
+
+/* Shop */
+/*
+div.shop-item {
+	display: none;
+}
+*/
+
+/* Resources Display */
+div.resources {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.resources-item {
+	min-width: 33%;
+	max-width: 100%;
+	text-align: center;
+}
+
+.resources-item {
+	display: none;
+}

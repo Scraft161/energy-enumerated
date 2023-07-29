@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Energy Enumerated!</title>
+		<link rel="stylesheet" href="master.css">
+	</head>
+	<body>
+		<div class="header">
+			<h2>You have <span class="number" id="main_number">0</span> energy</h2>
+			<h5>Cap: <span class="number" id="energy_cap">100</span></h5>
+			<button onClick="incrementEnergy(100)">Enumerate Energy</button>
+			<div id="shop">
+				<h4>Shop</h4>
+				<div class="shop-item" id="shop_enumerator">
+					<p>Energy Enumerator <sup>[<span id="enumerator_cost">20</span>]</sup></p>
+					<span class="count" id="enumerator_count">0</span>
+					<button onClick="buyEnumerator()">Buy!</button>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<div class="resources">
+			<div class="resources-left resources-item matter" id="div_matter">
+				<h3>Matter <span class="number" id="matter_number">0</span></h3>
+				<h5>Cap: <span class="number" id="matter_cap">10</span></h5>
+				<button onClick="energyToMatter(100)">Condense Energy (100E -&gt; 1M)</button>
+			</div>
+			<div class="resources-center resources-item annihilation" id="div_annihilation">
+				<h3>Matter-Antimatter annihilation</h3>
+				<h4>Multiplier: <span class="number" id="annihilation_multiplier">0</span>x</h4>
+				<h4>Speed: <span class="number" id="annihilation_speed">0</span>/s</h4>
+				<hr>
+				<h3>Light <span class="number" id="light_number">0</span></h3>
+				<button id="upgrade_annihilation_multiplier" onClick="upgradeAnnihilationMultiplier()">Double multiplier<sup>[<span class="number" id="annihilation_multiplier_count">1</span> L]</sup></button>
+			</div>
+			<div class="resources-right resources-item antimatter" id="div_antimatter">
+				<h3>Antimatter <span class="number" id="antimatter_number">0</span></h3>
+				<h5>Cap: <span class="number" id="antimatter_cap">1</span></h5>
+				<button id="condense_antimatter_button" onClick="energyToAntimatter(100)">Condense Energy (100E -&gt; 1AM)</button>
+			</div>
+		</div>
+		<hr>
+		<div class="upgrades">
+			<h3>Upgrades</h3>
+			<ul id="upgrade_list">
+				<li id="upgrade_antimatter_unlock">
+					<button onClick="upgradeAntimatterUnlock()">Unlock Antimatter (5M)</button>
+				</li>
+				<li id="upgrade_energy_cap_1">
+					<button onClick="upgradeEnergyCap1()">Energy cap x2 (0.02L)</button>
+				</li>
+				<li id="upgrade_antimatter_cap_1">
+					<button onClick="upgradeAntimatterCap1()">Antimatter cap x5 (0.02L)</button>
+				</li>
+				<li id="upgrade_annihilation_speed_1">
+					<button onClick="upgradeAnnihilationSpeed1()">Annihilation mutiplier x2 (0.05L)</button>
+				</li>
+			</ul>
+		</div>
+		<hr>
+		<div class="statistics">
+			<h3>Statistics</h3>
+			Nothing here yet, come back later.
+		</div>
+		<hr>
+		<div class="about">
+			<h3>About</h3>
+			<p>Energy: Your primary resource<br>
+				Matter: Secondary resource<br>
+				Antimatter: Secondary resource<br>
+				Light: Extra resource, used to buy upgrades, and increase resource limits
+			</p>
+			<p>PS: there is no saving/loading yet so your progress will be lost when you reload the page.</p>
+		</div>
+	</body>
+	<script src="main.js"></script>
+	<script src="upgrades.js"></script>
+</html>

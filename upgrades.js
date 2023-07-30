@@ -6,8 +6,8 @@ const upgradeAntimatterUnlock = () => {
 	let unlockElement = document.getElementById("upgrade_antimatter_unlock");
 	let buyAntimatterButton = document.getElementById("div_antimatter");
 	
-	if (data["Matter"] >= 500) {
-		data["Matter"] -= 500;
+	if (data["Matter"] >= 5) {
+		data["Matter"] -= 5;
 		buyAntimatterButton.style.display = "block";
 		unlockElement.style.display = "none";
 	}
@@ -18,9 +18,9 @@ const upgradeAntimatterUnlock = () => {
 const upgradeEnergyCap1 = () => {
 	let unlockElement = document.getElementById("upgrade_energy_cap_1");
 
-	if (data["Light"] >= 200) {
+	if (data["Light"] >= .02) {
 		data["EnergyCap"] = data["EnergyCap"] * 2;
-		data["Light"] -= 200;
+		data["Light"] -= .02;
 		unlockElement.style.display = "none";
 	}
 	updateDisplay();
@@ -30,9 +30,9 @@ const upgradeEnergyCap1 = () => {
 const upgradeAntimatterCap1 = () => {
 	let unlockElement = document.getElementById("upgrade_antimatter_cap_1");
 
-	if (data["Light"] >= 200) {
+	if (data["Light"] >= .02) {
 		data["AntimatterCap"] = data["AntimatterCap"] * 5;
-		data["Light"] -= 200;
+		data["Light"] -= .02;
 		unlockElement.style.display = "none";
 	}
 	updateDisplay();
@@ -42,9 +42,9 @@ const upgradeAntimatterCap1 = () => {
 const upgradeAnnihilationSpeed1 = () => {
 	let unlockElement = document.getElementById("upgrade_annihilation_speed_1");
 
-	if (data["Light"] >= 500) {
+	if (data["Light"] >= .05) {
 		data["AnnihilationSpeed"] = 2;
-		data["Light"] -= 500;
+		data["Light"] -= .05;
 		unlockElement.style.display = "none";
 	}
 
@@ -57,7 +57,7 @@ const upgradeAnnihilationSpeed1 = () => {
 const upgradeAnnihilationMultiplier = () => {
 	console.log(data["AnnihilationMultiplierCount"]);
 
-	const cost = fib[data["AnnihilationMultiplierCount"]] * 10000;
+	const cost = fib[data["AnnihilationMultiplierCount"]] * 1;
 
 	console.log(cost);
 

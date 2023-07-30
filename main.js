@@ -3,24 +3,25 @@ const fib = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987];
 
 var data
 
-if((localStorage.getItem("data") === undefined || localStorage.getItem("data") === null)) {
+//sets default data or retrieves it from localstorage
+if((JSON.parse(localStorage.getItem("data")) === undefined || JSON.parse(localStorage.getItem("data")) === null)) {
 	console.log("data not found; creating")
 	data = {
 		Energy: 0,
-		EnergyCap: 10000,
+		EnergyCap: 100,
 		VisibleUpgradeEnergyCap: false,
 		Matter: 0,
-		MatterCap: 1000,
+		MatterCap: 10,
 		VisibleMatter: false,
 		Antimatter: 0,
-		AntimatterCap: 100,
+		AntimatterCap: 1,
 		UpgradeUnlockAntimatter: false,
 		VisibleUpgradeAntimatterCap: false,
 		Light: 0,
 		VisibleLight: false,
 		AnnihilationMultiplier: 1,
 		AnnihilationMultiplierCount: 1,
-		AnnihilationSpeed: 1,
+		AnnihilationSpeed: 0.0001,
 		AnnihilationMultiplierCap: 10,
 		VisibleUpgradeAnnihilationSpeed: false,
 		VisibleAnnihilation: false, 
@@ -33,7 +34,18 @@ if((localStorage.getItem("data") === undefined || localStorage.getItem("data") =
 	data = JSON.parse(localStorage.getItem("data"))
 }
 
+//saves data to localstorage
+const saveData = () => {
+	localStorage.setItem("data", JSON.stringify(data))
+}
 
+//clears localstorage data
+const clearData = () => {
+	clearInterval(ticker)
+	data = {}
+	localStorage.setItem("data", JSON.stringify(null))
+	location.reload()
+}
 
 // Commonly used DOM elements
 let EnergyDisplay = document.getElementById("main_number");
@@ -55,54 +67,50 @@ let ShopEnumerator = document.getElementById("shop_enumerator");
 ShopEnumerator.style.display = "none";
 
 // Hide upgrades
-//document.getElementById("upgrade_antimatter_unlock").style.display = "none";
-//document.getElementById("upgrade_energy_cap_1").style.display = "none";
+document.getElementById("upgrade_antimatter_unlock").style.display = "none";
+document.getElementById("upgrade_energy_cap_1").style.display = "none";
 
 /// Update all displays, we modify the DOM directly because screw VirtualDOM
 const updateDisplay = () => {
-	EnergyDisplay.innerText = (data["Energy"] / 100).toString();
-	MatterDisplay.innerText = (data["Matter"] / 100).toString();
-	AntimatterDisplay.innerText = (data["Antimatter"] / 100).toString();
-	LightDisplay.innerText = (data["Light"] / 10000).toString();
-	AnnihilationSpeedDisplay.innerText = (data["AnnihilationSpeed"] / 100).toString();
+	EnergyDisplay.innerText = roundOff(data["Energy"], 2).toString();
+	MatterDisplay.innerText = roundOff(data["Matter"], 2).toString();
+	AntimatterDisplay.innerText = roundOff(data["Antimatter"], 2).toString();
+	LightDisplay.innerText = roundOff(data["Light"], 4).toString();
+	AnnihilationSpeedDisplay.innerText = (data["AnnihilationSpeed"]).toString();
 	AnnihilationMultiplierDisplay.innerText = data["AnnihilationMultiplier"].toString();
-
 	EnumaratorCountDisplay.innerText = data["EnumaratorCount"].toString();
 
 	// Caps
-	EnergyCapDisplay.innerText = (data["EnergyCap"] / 100).toString();
-	MatterCapDisplay.innerText = (data["MatterCap"] / 100).toString();
-	AntimatterCapDisplay.innerText = (data["AntimatterCap"] / 100).toString();
+	EnergyCapDisplay.innerText = (data["EnergyCap"]).toString();
+	MatterCapDisplay.innerText = (data["MatterCap"]).toString();
+	AntimatterCapDisplay.innerText = (data["AntimatterCap"]).toString();
 
 	// Resource-based unlocks
-	if (ShopEnumerator.style.display == "none" && (data["Energy"] >= 2000 || data["VisibleEnumerator"] == true)) {
-		let shop = document.getElementById("shop");
+	if (ShopEnumerator.style.display == "none" && (data["Energy"] >= 20 || data["VisibleEnumerator"] == true)) {
+		//let shop = document.getElementById("shop");
 		ShopEnumerator.style.display = "block";
 		data["VisibleEnumerator"] = true;
 	}
-	if (document.getElementById("div_matter").style.display = "none" && (data["Energy"] >= 10000 || data["VisibleMatter"] == false)) {
+	if (document.getElementById("div_matter").style.display = "none" && (data["Energy"] >= 100 || data["VisibleMatter"] == true)) {
 		document.getElementById("div_matter").style.display = "block";
 		data["VisibleMatter"] = true;
 	}
-	if (document.getElementById("upgrade_antimatter_unlock").style.display = "none" && (data["Matter"] >= 100 || data["UpgradeUnlockAntimatter"] == false)) {
+	if (document.getElementById("upgrade_antimatter_unlock").style.display = "none" && (data["Matter"] >= 1 || data["UpgradeUnlockAntimatter"] == true)) {
 		document.getElementById("upgrade_antimatter_unlock").style.display = "block";
 		data["UpgradeUnlockAntimatter"] = true;
 	}
-	if (document.getElementById("upgrade_energy_cap_1").style.display = "none" && (data["Light"] >= 100 || data["VisibleUpgradeEnergyCap"] == false)) {
+	if (document.getElementById("upgrade_energy_cap_1").style.display = "none" && (data["Light"] >= 0.01 || data["VisibleUpgradeEnergyCap"] == true)) {
 		document.getElementById("upgrade_energy_cap_1").style.display = "block";
 		data["VisibleUpgradeEnergyCap"] = true;
 	}
-	if (document.getElementById("upgrade_antimatter_cap_1").style.display = "none" && (data["Light"] >= 200 || data["VisibleUpgradeAntimatterCap"] == false)) {
+	if (document.getElementById("upgrade_antimatter_cap_1").style.display = "none" && (data["Light"] >= 0.02 || data["VisibleUpgradeAntimatterCap"] == true)) {
 		document.getElementById("upgrade_antimatter_cap_1").style.display = "block";
 		data["VisibleUpgradeAntimatterCap"] = true;
 	}
-	if (document.getElementById("upgrade_annihilation_speed_1").style.display = "none" && (data["Light"] >= 300 || data["VisibleUpgradeAnnihilationSpeed"] == false)) {
+	if (document.getElementById("upgrade_annihilation_speed_1").style.display = "none" && (data["Light"] >= 0.03 || data["VisibleUpgradeAnnihilationSpeed"] == false)) {
 		document.getElementById("upgrade_annihilation_speed_1").style.display = "block";
 		data["VisibleUpgradeAnnihilationSpeed"] = true;
 	}
-	
-	localStorage.setItem("data", JSON.stringify(data))
-	console.log("data saved")
 }
 
 /* FOR MODDERS: DO NOT USE THIS, it was written early on in development as a
@@ -123,7 +131,7 @@ const incrementEnergy = (amount) => {
 
 const buyEnumerator = () => {
 	let enumeratorCost = document.getElementById("enumerator_cost");
-	let cost = enumeratorCost.innerText * 100;
+	let cost = enumeratorCost.innerText;
 
 	if (data["Energy"] >= cost) {
 		data["EnumaratorCount"] += 1;	
@@ -140,9 +148,9 @@ const energyToMatter = (amount) => {
 		return;
 	}
 
-	if (data["Energy"] >= amount * 100) {
-		data["Matter"] += amount;
-		data["Energy"] -= amount * 100;
+	if (data["Energy"] >= amount) {
+		data["Matter"] += amount / 100;
+		data["Energy"] -= amount;
 
 		if (data["Matter"] > data["MatterCap"]) {
 			data["Matter"] = data["MatterCap"];
@@ -155,10 +163,9 @@ const energyToAntimatter = (amount) => {
 	if (data["Antimatter"] >= data["AntimatterCap"]) {
 		return;
 	}
-
-	if (data["Energy"] >= amount * 100) {
-		data["Antimatter"] += amount;
-		data["Energy"] -= amount * 100;
+	if (data["Energy"] >= amount) {
+		data["Antimatter"] += amount / 100;
+		data["Energy"] -= amount;
 
 		if (data["Antimatter"] > data["AntimatterCap"]) {
 			data["Antimatter"] = data["AntimatterCap"];
@@ -172,11 +179,22 @@ const energyToAntimatter = (amount) => {
 	updateDisplay();
 }
 
+/** 
+ * rounds off numbers to a certain amount of digits
+ * @param num number to be rounded
+ * @param digits how many decimals to round off too
+ * @returns rounded number
+*/
+
+const roundOff = (num, digits) => {
+	return (Math.round(num*(10*digits)))/(10*digits)
+}
+
 // Game loop stuffs
 
 const tick = () => {
 	if (data["Energy"] < data["EnergyCap"]) {
-		let incrementAmount = data["EnumaratorCount"] * 10;
+		let incrementAmount = data["EnumaratorCount"] * 0.1;
 		// Annihilation
 		if (data["Matter"] >= data["AnnihilationSpeed"] && data["Antimatter"] >= data["AnnihilationSpeed"]) {
 			data["Matter"] -= data["AnnihilationSpeed"];
@@ -186,6 +204,7 @@ const tick = () => {
 		}
 		incrementEnergy(incrementAmount);
 	}
+	saveData()
 }
 
 const startLoop = () => {
@@ -202,5 +221,6 @@ function sleep(ms) {
 // Game Loop
 tick()
 updateDisplay()
-setInterval(tick, 1000);
+const ticker = setInterval(tick, 1000);
+
 

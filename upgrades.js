@@ -43,7 +43,7 @@ const upgradeAnnihilationSpeed1 = () => {
 	let unlockElement = document.getElementById("upgrade_annihilation_speed_1");
 
 	if (data["Light"] >= .05) {
-		data["AnnihilationSpeed"] = 2;
+		data["AnnihilationSpeed"] *= 2;
 		data["Light"] -= .05;
 		unlockElement.style.display = "none";
 	}

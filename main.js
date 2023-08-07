@@ -67,8 +67,8 @@ let ShopEnumerator = document.getElementById("shop_enumerator");
 ShopEnumerator.style.display = "none";
 
 // Hide upgrades
-document.getElementById("upgrade_antimatter_unlock").style.display = "none";
-document.getElementById("upgrade_energy_cap_1").style.display = "none";
+document.getElementById("upgrade_antimatter_unlock").style.display = "";
+document.getElementById("upgrade_energy_cap_1").style.display = "";
 
 /// Update all displays, we modify the DOM directly because screw VirtualDOM
 const updateDisplay = () => {
@@ -91,25 +91,28 @@ const updateDisplay = () => {
 		ShopEnumerator.style.display = "block";
 		data["VisibleEnumerator"] = true;
 	}
-	if (document.getElementById("div_matter").style.display = "none" && (data["Energy"] >= 100 || data["VisibleMatter"] == true)) {
+	if (document.getElementById("div_matter").style.display == "" && (data["Energy"] >= 100 || data["VisibleMatter"] == true)) {
 		document.getElementById("div_matter").style.display = "block";
 		data["VisibleMatter"] = true;
 	}
-	if (document.getElementById("upgrade_antimatter_unlock").style.display = "none" && (data["Matter"] >= 1 || data["UpgradeUnlockAntimatter"] == true)) {
+	if (document.getElementById("upgrade_antimatter_unlock").style.display == "" && (data["Matter"] >= 1 || data["UpgradeUnlockAntimatter"] == true)) {
 		document.getElementById("upgrade_antimatter_unlock").style.display = "block";
 		data["UpgradeUnlockAntimatter"] = true;
 	}
-	if (document.getElementById("upgrade_energy_cap_1").style.display = "none" && (data["Light"] >= 0.01 || data["VisibleUpgradeEnergyCap"] == true)) {
+	if (document.getElementById("upgrade_energy_cap_1").style.display == "" && (data["Light"] >= 0.01 || data["VisibleUpgradeEnergyCap"] == true)) {
 		document.getElementById("upgrade_energy_cap_1").style.display = "block";
 		data["VisibleUpgradeEnergyCap"] = true;
 	}
-	if (document.getElementById("upgrade_antimatter_cap_1").style.display = "none" && (data["Light"] >= 0.02 || data["VisibleUpgradeAntimatterCap"] == true)) {
+	if (document.getElementById("upgrade_antimatter_cap_1").style.display == "" && (data["Light"] >= 0.02 || data["VisibleUpgradeAntimatterCap"] == true)) {
 		document.getElementById("upgrade_antimatter_cap_1").style.display = "block";
 		data["VisibleUpgradeAntimatterCap"] = true;
 	}
-	if (document.getElementById("upgrade_annihilation_speed_1").style.display = "none" && (data["Light"] >= 0.03 || data["VisibleUpgradeAnnihilationSpeed"] == false)) {
+	if (document.getElementById("upgrade_annihilation_speed_1").style.display == "" && (data["Light"] >= 0.03 || data["VisibleUpgradeAnnihilationSpeed"] == false)) {
 		document.getElementById("upgrade_annihilation_speed_1").style.display = "block";
 		data["VisibleUpgradeAnnihilationSpeed"] = true;
+	}
+	if (document.getElementById("div_annihilation").style.display == "" && data["VisibleAnnihilation"]) {
+		document.getElementById("div_annihilation").style.display = "block";
 	}
 }
 
@@ -171,11 +174,13 @@ const energyToAntimatter = (amount) => {
 			data["Antimatter"] = data["AntimatterCap"];
 		}
 	}
-
+	/*
 	if (data["VisibleAnnihilation"] == false) {
 		document.getElementById("div_annihilation").style.display = "block";
 		data["VisibleAnnihilation"] = true;
 	}
+	*/
+	data["VisibleAnnihilation"] = true;
 	updateDisplay();
 }
 

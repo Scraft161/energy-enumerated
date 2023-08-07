@@ -187,7 +187,7 @@ const energyToAntimatter = (amount) => {
 */
 
 const roundOff = (num, digits) => {
-	return (Math.round(num*(10*digits)))/(10*digits)
+	return (Math.round(num*Math.pow(10, digits)))/Math.pow(10, digits)
 }
 
 // Game loop stuffs
@@ -197,9 +197,9 @@ const tick = () => {
 		let incrementAmount = data["EnumaratorCount"] * 0.1;
 		// Annihilation
 		if (data["Matter"] >= data["AnnihilationSpeed"] && data["Antimatter"] >= data["AnnihilationSpeed"]) {
-			data["Matter"] -= data["AnnihilationSpeed"];
-			data["Antimatter"] -= data["AnnihilationSpeed"];
-			incrementAmount += data["AnnihilationSpeed"] * data["AnnihilationMultiplier"];
+			data["Matter"] -= data["AnnihilationSpeed"]*100;
+			data["Antimatter"] -= data["AnnihilationSpeed"]*100;
+			incrementAmount += data["AnnihilationSpeed"] * data["AnnihilationMultiplier"]*10000;
 			data["Light"] += data["AnnihilationSpeed"];
 		}
 		incrementEnergy(incrementAmount);

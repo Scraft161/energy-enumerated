@@ -1,3 +1,9 @@
+/* Main game script file
+*/
+
+//import("/resources.js");
+//import * from "resources.js";
+
 // precalculated list of fibonacci numbers.
 const fib = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987];
 
@@ -18,6 +24,7 @@ if((JSON.parse(localStorage.getItem("data")) === undefined || JSON.parse(localSt
 		UpgradeUnlockAntimatter: false,
 		VisibleUpgradeAntimatterCap: false,
 		Light: 0,
+		LightCap: 1,
 		VisibleLight: false,
 		AnnihilationMultiplier: 1,
 		AnnihilationMultiplierCount: 1,
@@ -116,22 +123,6 @@ const updateDisplay = () => {
 	}
 }
 
-/* FOR MODDERS: DO NOT USE THIS, it was written early on in development as a
- * means to increment the energy count before the updateDisplay function was
- * created.
- * it now sits here in it's current state until it is no longer of use when it
- * will be deleted.
- * Manually increment the global `Energy` variable and call `updateDisplay()`
- * instead.
-*/
-const incrementEnergy = (amount) => {
-	data["Energy"] += amount;
-	if (data["Energy"] >= data["EnergyCap"]) {
-		data["Energy"] = data["EnergyCap"];
-	}
-	updateDisplay();
-}
-
 const buyEnumerator = () => {
 	let enumeratorCost = document.getElementById("enumerator_cost");
 	let cost = enumeratorCost.innerText;
@@ -186,17 +177,21 @@ const energyToAntimatter = (amount) => {
 
 /** 
  * rounds off numbers to a certain amount of digits
- * @param num number to be rounded
- * @param digits how many decimals to round off too
- * @returns rounded number
+ * @param {number} num The number to be rounded
+ * @param {number} digits How many decimals to round off too
+ * @returns {number} Rounded number
 */
-
 const roundOff = (num, digits) => {
-	return (Math.round(num*Math.pow(10, digits)))/Math.pow(10, digits)
+	return (
+		Math.round(num * Math.pow(10, digits))
+	) / Math.pow(10, digits)
 }
 
 // Game loop stuffs
 
+/**
+ * Game tick loop
+*/
 const tick = () => {
 	if (data["Energy"] < data["EnergyCap"]) {
 		let incrementAmount = data["EnumaratorCount"] * 0.1;
@@ -227,5 +222,4 @@ function sleep(ms) {
 tick()
 updateDisplay()
 const ticker = setInterval(tick, 1000);
-
 

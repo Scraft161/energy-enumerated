@@ -38,6 +38,7 @@ const upgradeEnergyCap2 = () => {
 		data["upgrades"]["energyCap2"] = true;
 		unlockElement.style.display = "none";
 	}
+	updateDisplay();
 }
 
 /// Antimatter cap increases
@@ -62,6 +63,7 @@ const upgradeAntimatterCap2 = () => {
 		data["upgrades"]["antimatterCap2"] = true;
 		unlockElement.style.display = "none";
 	}
+	updateDisplay();
 }
 
 /// Annihilation

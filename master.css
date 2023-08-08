@@ -41,3 +41,17 @@ div.resources {
 .resources-item {
 	display: none;
 }
+
+div.data>div {
+	display: flex;
+}
+
+div.data>div>div {
+	min-width: 50%;
+	max-width: 100%;
+	text-align: center;
+}
+
+div.data>div>div>ul {
+	list-style-type: none;
+}

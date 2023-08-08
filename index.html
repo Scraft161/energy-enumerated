@@ -51,7 +51,7 @@
 					<button onClick="upgradeEnergyCap1()">Energy cap x2 (0.02L)</button>
 				</li>
 				<li id="upgrade_antimatter_cap_1">
-					<button onClick="upgradeAntimatterCap1()">Antimatter cap x5 (0.02L)</button>
+					<button onClick="upgradeAntimatterCap1()">Antimatter cap x2 (0.02L)</button>
 				</li>
 				<li id="upgrade_annihilation_speed_1">
 					<button onClick="upgradeAnnihilationSpeed1()">Annihilation speed x2 (0.05L)</button>
@@ -62,21 +62,33 @@
 		<div class="data">
 			<h3>SaveData</h3>
 			<div>
-				save
-				load
-				reset
-				<ul>
-					<li>
-						<button>Save</button>
-						<span class="button-undertext">Save Game</span>
-					</li>
-					<li>
-						<button>Reset</button>
-						<span class="button-undertext">Reset Game</span>
-					</li>
-				</ul>
-				<hr>
+				<div>
+					<h5>Manage save</h5>
+					<ul>
+						<li>
+							<button onClick="writeSave()">Save</button>
+							<span class="button-undertext">Save Game</span>
+						</li>
+						<li>
+							<button onClick="newSave(); location.reload()">Reset</button>
+							<span class="button-undertext">Reset Game</span>
+						</li>
+					</ul>
+				</div>
+				<div>
+					<h5>Import &amp; Export</h5>
+					doesn't work yet
+					<ul>
+						<li>
+							<button>Import</button>
+						</li>
+						<li>
+							<button>Export</button>
+						</li>
+				</div>
 			</div>
+			<hr>
+		</div>
 		<div class="statistics">
 			<h3>Statistics</h3>
 			Nothing here yet, come back later.
@@ -94,6 +106,7 @@
 	</body>
 	<script src="upgrades.js"></script>
 	<script src="resources.js"></script>
+	<script src="save.js"></script>
 	<!-- main needs to be loaded last -->
 	<script src="main.js"></script>
 </html>

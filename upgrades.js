@@ -6,8 +6,10 @@ const upgradeAntimatterUnlock = () => {
 	let unlockElement = document.getElementById("upgrade_antimatter_unlock");
 	let buyAntimatterButton = document.getElementById("div_antimatter");
 	
-	if (data["Matter"] >= 5) {
-		data["Matter"] -= 5;
+	if (data["resources"]["matter"] >= 5) {
+		data["resources"]["matter"] -= 5;
+		data["visible"]["antimatter"] = true;
+		data["upgrades"]["unlockAntimatter"] = true;
 		buyAntimatterButton.style.display = "block";
 		unlockElement.style.display = "none";
 	}
@@ -18,9 +20,10 @@ const upgradeAntimatterUnlock = () => {
 const upgradeEnergyCap1 = () => {
 	let unlockElement = document.getElementById("upgrade_energy_cap_1");
 
-	if (data["Light"] >= .02) {
-		data["EnergyCap"] = data["EnergyCap"] * 2;
-		data["Light"] -= .02;
+	if (data["resources"]["light"] >= .02) {
+		data["caps"]["energy"] = 200;
+		data["resources"]["light"] -= .02;
+		data["upgrades"]["energyCap1"] = true;
 		unlockElement.style.display = "none";
 	}
 	updateDisplay();
@@ -30,9 +33,10 @@ const upgradeEnergyCap1 = () => {
 const upgradeAntimatterCap1 = () => {
 	let unlockElement = document.getElementById("upgrade_antimatter_cap_1");
 
-	if (data["Light"] >= .02) {
-		data["AntimatterCap"] = data["AntimatterCap"] * 5;
-		data["Light"] -= .02;
+	if (data["resources"]["light"] >= .02) {
+		data["caps"]["antimatter"] = 2;
+		data["resources"]["light"] -= .02;
+		data["upgrades"]["antimatterCap1"] = true;
 		unlockElement.style.display = "none";
 	}
 	updateDisplay();
@@ -42,14 +46,16 @@ const upgradeAntimatterCap1 = () => {
 const upgradeAnnihilationSpeed1 = () => {
 	let unlockElement = document.getElementById("upgrade_annihilation_speed_1");
 
-	if (data["Light"] >= .05) {
-		data["AnnihilationSpeed"] *= 2;
-		data["Light"] -= .05;
+	if (data["resources"]["light"] >= .05) {
+		data["annihilation"]["speed"] *= 0.02;
+		data["resources"]["light"] -= .05;
+		data["upgrades"]["annihilationSpeed1"] = true;
 		unlockElement.style.display = "none";
 	}
 
 	// Unlock multiplier button
 	document.getElementById("upgrade_annihilation_multiplier").style.display = "block";
+	data["visible"]["annihilationMultiplier"] = true;
 	updateDisplay();
 }
 

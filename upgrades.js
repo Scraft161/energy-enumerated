@@ -20,35 +20,57 @@ const upgradeAntimatterUnlock = () => {
 const upgradeEnergyCap1 = () => {
 	let unlockElement = document.getElementById("upgrade_energy_cap_1");
 
-	if (data["resources"]["light"] >= .02) {
+	if (data["resources"]["light"] >= 0.02) {
 		data["caps"]["energy"] = 200;
-		data["resources"]["light"] -= .02;
+		data["resources"]["light"] -= 0.02;
 		data["upgrades"]["energyCap1"] = true;
 		unlockElement.style.display = "none";
 	}
 	updateDisplay();
 }
 
+const upgradeEnergyCap2 = () => {
+	let unlockElement = document.getElementById("upgrade_energy_cap_2");
+
+	if (data["resources"]["light"] >= 0.05) {
+		data["caps"]["energy"] = 500;
+		data["resources"]["light"] -= 0.05;
+		data["upgrades"]["energyCap2"] = true;
+		unlockElement.style.display = "none";
+	}
+}
+
 /// Antimatter cap increases
 const upgradeAntimatterCap1 = () => {
 	let unlockElement = document.getElementById("upgrade_antimatter_cap_1");
 
-	if (data["resources"]["light"] >= .02) {
+	if (data["resources"]["light"] >= 0.02) {
 		data["caps"]["antimatter"] = 2;
-		data["resources"]["light"] -= .02;
+		data["resources"]["light"] -= 0.02;
 		data["upgrades"]["antimatterCap1"] = true;
 		unlockElement.style.display = "none";
 	}
 	updateDisplay();
 }
 
+const upgradeAntimatterCap2 = () => {
+	let unlockElement = document.getElementById("upgrade_antimatter_cap_2");
+
+	if (data["resources"]["light"] >= 0.07) {
+		data["caps"]["antimatter"] = 5;
+		data["resources"]["light"] -= 0.07;
+		data["upgrades"]["antimatterCap2"] = true;
+		unlockElement.style.display = "none";
+	}
+}
+
 /// Annihilation
 const upgradeAnnihilationSpeed1 = () => {
 	let unlockElement = document.getElementById("upgrade_annihilation_speed_1");
 
-	if (data["resources"]["light"] >= .05) {
-		data["annihilation"]["speed"] *= 0.02;
-		data["resources"]["light"] -= .05;
+	if (data["resources"]["light"] >= 0.05) {
+		data["annihilation"]["speed"] = 0.02;
+		data["resources"]["light"] -= 0.05;
 		data["upgrades"]["annihilationSpeed1"] = true;
 		unlockElement.style.display = "none";
 	}
@@ -61,15 +83,12 @@ const upgradeAnnihilationSpeed1 = () => {
 
 /// Multiplier stuff
 const upgradeAnnihilationMultiplier = () => {
-	console.log(data["AnnihilationMultiplierCount"]);
-
-	const cost = fib[data["AnnihilationMultiplierCount"]] * 1;
+	const cost = fib[data["annihilation"]["multiplier"]];
 
 	console.log(cost);
 
-	if (data["Light"] >= cost) {
-		data["AnnihilationMultiplier"] = data["AnnihilationMultiplier"] * 2;
-		data["AnnihilationMultiplierCount"] += 1;
+	if (data["resources"]["Light"] >= cost) {
+		data["annihilation"]["multiplier"] = data["annihilation"]["multiplier"] * 2;
 	}
 	updateDisplay();
 }

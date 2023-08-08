@@ -53,6 +53,10 @@ const updateDisplay = () => {
 	MatterCapDisplay.innerText = (data["caps"]["matter"]).toString();
 	AntimatterCapDisplay.innerText = (data["caps"]["antimatter"]).toString();
 
+	if (data["visible"]["annihilationMultiplier"] === true) {
+		document.getElementById("upgrade_annihilation_multiplier").style.display = "block";
+	}
+
 	resourceUnlocks(data["resources"], data["upgrades"], data["visible"]);
 
 	// Enumerator cost

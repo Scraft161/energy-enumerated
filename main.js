@@ -166,5 +166,5 @@ function sleep(ms) {
 updateDisplay()
 tick()
 const ticker = setInterval(tick, 1000);
-const saveLoop = setInterval(writeSave, 1000 * 60);
+const saveLoop = setInterval(writeSave, 1000 * 10);
 

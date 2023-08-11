@@ -89,7 +89,7 @@ const upgradeAnnihilationMultiplier = () => {
 
 	console.log(cost);
 
-	if (data["resources"]["Light"] >= cost) {
+	if (data["resources"]["light"] >= cost) {
 		data["annihilation"]["multiplier"] = data["annihilation"]["multiplier"] * 2;
 	}
 	updateDisplay();

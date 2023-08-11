@@ -87,8 +87,6 @@ const upgradeAnnihilationSpeed1 = () => {
 const upgradeAnnihilationMultiplier = () => {
 	const cost = fib[data["annihilation"]["multiplier"]];
 
-	console.log(cost);
-
 	if (data["resources"]["light"] >= cost) {
 		data["annihilation"]["multiplier"] = data["annihilation"]["multiplier"] * 2;
 	}

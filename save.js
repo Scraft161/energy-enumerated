@@ -52,7 +52,7 @@ const loadSave = () => {
 
 const writeSave = () => {
 	localStorage.setItem("data", JSON.stringify(data));
-	console.log("Saved game")
+	//console.log("Saved game")
 }
 
 /**

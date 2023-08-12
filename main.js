@@ -1,32 +1,20 @@
+/* Main game script file
+*/
+
+//import("/resources.js");
+//import * from "resources.js";
+
 // precalculated list of fibonacci numbers.
 const fib = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987];
 
-let Energy = 0;
-let Matter = 0;
-let Antimatter = 0;
-let Light = 0;
-let AnnihilationMultiplier = 1;
-let AnnihilationMultiplierCount = 1;
-let AnnihilationSpeed = 1;
+var data
 
-let VisibleEnumerator = false;
-let VisibleMatter = false
-let VisibleAnnihilation = false;
-let VisibleLight = false;
-let VisibleUpgrades = false;
-
-let UpgradeUnlockAntimatter = false;
-let VisibleUpgradeEnergyCap1 = false;
-let VisibleUpgradeAntimatterCap1 = false;
-let VisibleUpgradeAnnihilationSpeed1 = false;
-
-// Resource caps, note that these are *100 compared to what is shown in the UI thanks to floating point math.
-let EnergyCap = 10000;
-let MatterCap = 1000;
-let AntimatterCap = 100;
-let AnnihilationMultiplierCap = 10;
-
-let EnumaratorCount = 0;
+//sets default data or retrieves it from localstorage
+if((JSON.parse(localStorage.getItem("data")) === undefined || JSON.parse(localStorage.getItem("data")) === null)) {
+	newSave();
+} else {
+	loadSave();
+}
 
 // Commonly used DOM elements
 let EnergyDisplay = document.getElementById("main_number");
@@ -41,85 +29,46 @@ let MatterCapDisplay = document.getElementById("matter_cap");
 let AntimatterCapDisplay = document.getElementById("antimatter_cap");
 
 let EnumaratorCountDisplay = document.getElementById("enumerator_count");
-
-let ShopEnumerator = document.getElementById("shop_enumerator");
+let enumeratorCostDisplay = document.getElementById("enumerator_cost");
 
 // Hide shop items
-ShopEnumerator.style.display = "none";
+document.getElementById("shop_enumerator").style.display = "none";
 
 // Hide upgrades
-//document.getElementById("upgrade_antimatter_unlock").style.display = "none";
-//document.getElementById("upgrade_energy_cap_1").style.display = "none";
+document.getElementById("upgrade_antimatter_unlock").style.display = "";
+document.getElementById("upgrade_energy_cap_1").style.display = "";
 
 /// Update all displays, we modify the DOM directly because screw VirtualDOM
 const updateDisplay = () => {
-	EnergyDisplay.innerText = (Energy / 100).toString();
-	MatterDisplay.innerText = (Matter / 100).toString();
-	AntimatterDisplay.innerText = (Antimatter / 100).toString();
-	LightDisplay.innerText = (Light / 10000).toString();
-	AnnihilationSpeedDisplay.innerText = (AnnihilationSpeed / 100).toString();
-	AnnihilationMultiplierDisplay.innerText = AnnihilationMultiplier.toString();
-
-	EnumaratorCountDisplay.innerText = EnumaratorCount.toString();
+	EnergyDisplay.innerText = roundOff(data["resources"]["energy"], 2).toString();
+	MatterDisplay.innerText = roundOff(data["resources"]["matter"], 2).toString();
+	AntimatterDisplay.innerText = roundOff(data["resources"]["antimatter"], 2).toString();
+	LightDisplay.innerText = roundOff(data["resources"]["light"], 4).toString();
+	AnnihilationSpeedDisplay.innerText = (data["annihilation"]["speed"]).toString();
+	AnnihilationMultiplierDisplay.innerText = data["annihilation"]["multiplier"].toString();
+	EnumaratorCountDisplay.innerText = data["enumerators"]["count"].toString();
 
 	// Caps
-	EnergyCapDisplay.innerText = (EnergyCap / 100).toString();
-	MatterCapDisplay.innerText = (MatterCap / 100).toString();
-	AntimatterCapDisplay.innerText = (AntimatterCap / 100).toString();
+	EnergyCapDisplay.innerText = (data["caps"]["energy"]).toString();
+	MatterCapDisplay.innerText = (data["caps"]["matter"]).toString();
+	AntimatterCapDisplay.innerText = (data["caps"]["antimatter"]).toString();
 
-	// Resource-based unlocks
-	if (Energy >= 2000 && VisibleEnumerator == false) {
-		let shop = document.getElementById("shop");
-		ShopEnumerator.style.display = "block";
-		VisibleEnumerator = true;
+	if (data["visible"]["annihilationMultiplier"] === true) {
+		document.getElementById("upgrade_annihilation_multiplier").style.display = "block";
 	}
-	if (Energy >= 10000 && VisibleMatter == false) {
-		let divMatter = document.getElementById("div_matter");
-		divMatter.style.display = "block";
-		VisibleMatter = true;
-	}
-	if (Matter >= 100 && UpgradeUnlockAntimatter == false) {
-		document.getElementById("upgrade_antimatter_unlock").style.display = "block";
-		UpgradeUnlockAntimatter = true;
-	}
-	if (Light >= 100 && VisibleUpgradeEnergyCap1 == false) {
-		document.getElementById("upgrade_energy_cap_1").style.display = "block";
-		VisibleUpgradeEnergyCap1 = true;
-	}
-	if (Light >= 200 && VisibleUpgradeAntimatterCap1 == false) {
-		document.getElementById("upgrade_antimatter_cap_1").style.display = "block";
-		VisibleUpgradeAntimatterCap1 = true;
-	}
-	if (Light >= 300 && VisibleUpgradeAnnihilationSpeed1 == false) {
-		document.getElementById("upgrade_annihilation_speed_1").style.display = "block";
-		VisibleUpgradeAnnihilationSpeed1 = true;
-	}
-}
 
-/* FOR MODDERS: DO NOT USE THIS, it was written early on in development as a
- * means to increment the energy count before the updateDisplay function was
- * created.
- * it now sits here in it's current state until it is no longer of use when it
- * will be deleted.
- * Manually increment the global `Energy` variable and call `updateDisplay()`
- * instead.
-*/
-const incrementEnergy = (amount) => {
-	Energy += amount;
-	if (Energy >= EnergyCap) {
-		Energy = EnergyCap;
-	}
-	updateDisplay();
+	resourceUnlocks(data["resources"], data["upgrades"], data["visible"]);
+
+	// Enumerator cost
+	enumeratorCostDisplay.innerText = (data["enumerators"]["count"] * data["enumerators"]["count"]) + 20;
 }
 
 const buyEnumerator = () => {
-	let enumeratorCost = document.getElementById("enumerator_cost");
-	let cost = enumeratorCost.innerText * 100;
+	let cost = (data["enumerators"]["count"] * data["enumerators"]["count"]) + 20;
 
-	if (Energy >= cost) {
-		EnumaratorCount += 1;	
-		Energy -= cost;
-		enumeratorCost.innerText = (EnumaratorCount * EnumaratorCount) + 20;
+	if (data["resources"]["energy"] >= cost) {
+		data["enumerators"]["count"] += 1;	
+		data["resources"]["energy"] -= cost;
 		updateDisplay();
 	}
 }
@@ -127,55 +76,78 @@ const buyEnumerator = () => {
 // Matter & Antimatter
 
 const energyToMatter = (amount) => {
-	if (Matter >= MatterCap) {
+	if (data["resources"]["matter"] >= data["caps"]["matter"]) {
 		return;
 	}
 
-	if (Energy >= amount * 100) {
-		Matter += amount;
-		Energy -= amount * 100;
+	if (data["resources"]["energy"] >= amount) {
+		data["resources"]["matter"] += amount / 100;
+		data["resources"]["energy"] -= amount;
 
-		if (Matter > MatterCap) {
-			Matter = MatterCap;
+		if (data["resources"]["matter"] > data["caps"]["matter"]) {
+			data["resources"]["matter"] = data["caps"]["matter"];
 		}
 	}
 	updateDisplay();
 }
 
 const energyToAntimatter = (amount) => {
-	if (Antimatter >= AntimatterCap) {
+	if (data["resources"]["antimatter"] >= data["caps"]["antimatter"]) {
 		return;
 	}
+	if (data["resources"]["energy"] >= amount) {
+		data["resources"]["antimatter"] += amount / 100;
+		data["resources"]["energy"] -= amount;
 
-	if (Energy >= amount * 100) {
-		Antimatter += amount;
-		Energy -= amount * 100;
-
-		if (Antimatter > AntimatterCap) {
-			Antimatter = AntimatterCap;
+		if (data["resources"]["antimatter"] > data["caps"]["antimatter"]) {
+			data["resources"]["antimatter"] = data["caps"]["antimatter"];
 		}
 	}
-
-	if (VisibleAnnihilation == false) {
-		document.getElementById("div_annihilation").style.display = "block";
-		VisibleAnnihilation = true;
-	}
+	data["visible"]["annihilation"] = true;
 	updateDisplay();
+}
+
+/** 
+ * rounds off numbers to a certain amount of digits
+ * @param {number} num The number to be rounded
+ * @param {number} digits How many decimals to round off too
+ * @returns {number} Rounded number
+*/
+const roundOff = (num, digits) => {
+	return (
+		Math.round(num * Math.pow(10, digits))
+	) / Math.pow(10, digits)
+}
+
+/**
+ * Fix drift for all resources
+*/
+const fixResourceDrift = () => {
+	data["resources"]["energy"] = roundOff(data["resources"]["energy"], 2);
+	data["resources"]["matter"] = roundOff(data["resources"]["matter"], 2);
+	data["resources"]["antimatter"] = roundOff(data["resources"]["antimatter"], 2);
+	data["resources"]["light"] = roundOff(data["resources"]["light"], 4);
 }
 
 // Game loop stuffs
 
+/**
+ * Game tick loop
+*/
 const tick = () => {
-	if (Energy < EnergyCap) {
-		let incrementAmount = EnumaratorCount * 10;
+	fixResourceDrift();
+	// Only tick energy generators if we haven't hit the cap
+	if (data["resources"]["energy"] < data["caps"]["energy"]) {
+		let incrementAmount = data["enumerators"]["count"] * 0.1;
 		// Annihilation
-		if (Matter >= AnnihilationSpeed && Antimatter >= AnnihilationSpeed) {
-			Matter -= AnnihilationSpeed;
-			Antimatter -= AnnihilationSpeed;
-			incrementAmount += AnnihilationSpeed * AnnihilationMultiplier;
-			Light += AnnihilationSpeed;
+		if (data["resources"]["matter"] >= data["annihilation"]["speed"] && data["resources"]["antimatter"] >= data["annihilation"]["speed"]) {
+			data["resources"]["matter"] -= data["annihilation"]["speed"];
+			data["resources"]["antimatter"] -= data["annihilation"]["speed"];
+			incrementAmount += data["annihilation"]["speed"] * data["annihilation"]["multiplier"];
+			data["resources"]["light"] += data["annihilation"]["speed"] / 100;
 		}
 		incrementEnergy(incrementAmount);
+		updateDisplay();
 	}
 }
 
@@ -191,4 +163,8 @@ function sleep(ms) {
 }
 
 // Game Loop
-setInterval(tick, 1000);
+updateDisplay()
+tick()
+const ticker = setInterval(tick, 1000);
+const saveLoop = setInterval(writeSave, 1000 * 10);
+

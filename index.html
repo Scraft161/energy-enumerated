@@ -9,7 +9,7 @@
 		<div class="header">
 			<h2>You have <span class="number" id="main_number">0</span> energy</h2>
 			<h5>Cap: <span class="number" id="energy_cap">100</span></h5>
-			<button onClick="incrementEnergy(1)">Enumerate Energy</button>
+			<button onClick="incrementEnergyButton()">Enumerate Energy</button>
 			<div id="shop">
 				<h4>Shop</h4>
 				<div class="shop-item" id="shop_enumerator">
@@ -18,8 +18,8 @@
 					<button onClick="buyEnumerator()">Buy!</button>
 				</div>
 			</div>
+			<hr>
 		</div>
-		<hr>
 		<div class="resources">
 			<div class="resources-left resources-item matter" id="div_matter">
 				<h3>Matter <span class="number" id="matter_number">0</span></h3>
@@ -51,19 +51,55 @@
 					<button onClick="upgradeEnergyCap1()">Energy cap x2 (0.02L)</button>
 				</li>
 				<li id="upgrade_antimatter_cap_1">
-					<button onClick="upgradeAntimatterCap1()">Antimatter cap x5 (0.02L)</button>
+					<button onClick="upgradeAntimatterCap1()">Antimatter cap x2 (0.02L)</button>
 				</li>
 				<li id="upgrade_annihilation_speed_1">
 					<button onClick="upgradeAnnihilationSpeed1()">Annihilation speed x2 (0.05L)</button>
 				</li>
+				<li id="upgrade_energy_cap_2">
+					<button onClick="upgradeEnergyCap2()">Energy cap 200 =&gt; 500 (0.05L)</button>
+				</li>
+				<li id="upgrade_antimatter_cap_2">
+					<button onClick="upgradeAntimatterCap2()">Antimatter cap 2 =&gt; 5 (0.07L)</button>
+				</li>
 			</ul>
+			<hr>
 		</div>
-		<hr>
+		<div class="data">
+			<h3>SaveData</h3>
+			<div>
+				<div>
+					<h5>Manage save</h5>
+					<ul>
+						<li>
+							<button onClick="writeSave()">Save</button>
+							<span class="button-undertext">Save Game</span>
+						</li>
+						<li>
+							<button onClick="newSave(); location.reload()">Reset</button>
+							<span class="button-undertext">Reset Game</span>
+						</li>
+					</ul>
+				</div>
+				<div style="display: none">
+					<h5>Import &amp; Export</h5>
+					doesn't work yet
+					<ul>
+						<li>
+							<button>Import</button>
+						</li>
+						<li>
+							<button>Export</button>
+						</li>
+				</div>
+			</div>
+			<hr>
+		</div>
 		<div class="statistics">
 			<h3>Statistics</h3>
 			Nothing here yet, come back later.
+			<hr>
 		</div>
-		<hr>
 		<div class="about">
 			<h3>About</h3>
 			<p>Energy: Your primary resource<br>
@@ -72,9 +108,12 @@
 				Light: Extra resource, used to buy upgrades, and increase resource limits
 			</p>
 			<p>Join our <a href="https://discord.gg/XCukkqpBJq" target="_blank">Discord server</a> for news, updates, and community discussion</p>
-			<p>PS: there is no saving/loading yet so your progress will be lost when you reload the page.</p>
+			<p>PS: Saving/Loading is a work in progress, save data may be lost</p>
 		</div>
 	</body>
-	<script src="main.js"></script>
 	<script src="upgrades.js"></script>
+	<script src="resources.js"></script>
+	<script src="save.js"></script>
+	<!-- main needs to be loaded last -->
+	<script src="main.js"></script>
 </html>

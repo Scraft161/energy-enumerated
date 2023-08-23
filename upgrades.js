@@ -85,10 +85,12 @@ const upgradeAnnihilationSpeed1 = () => {
 
 /// Multiplier stuff
 const upgradeAnnihilationMultiplier = () => {
-	const cost = fib[data["annihilation"]["multiplier"]];
+	const cost = fib[data["annihilation"]["multiplierCount"]];
 
 	if (data["resources"]["light"] >= cost) {
 		data["annihilation"]["multiplier"] = data["annihilation"]["multiplier"] * 2;
+		data["annihilation"]["multiplierCount"] += 1;
+		data["resources"]["light"] -= cost;
 	}
 	updateDisplay();
 }

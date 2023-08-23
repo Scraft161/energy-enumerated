@@ -29,6 +29,7 @@ const newSave = () => {
 		annihilation: {
 			multiplier: 1,
 			multiplierCap: 10,
+			multiplierCount: 1,
 			speed: 0.01,
 			speedCap: 0.1,
 		},
@@ -41,6 +42,11 @@ const newSave = () => {
 
 const loadSave = () => {
 	data = JSON.parse(localStorage.getItem("data"));
+
+	// Add possibly missing data to the save
+	if (data["annihilation"]["multiplierCount"] > 1) {
+		data["annihilation"]["multiplierCount"] = 1;
+	}
 
 	// Handle broken save
 	/*

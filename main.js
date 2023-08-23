@@ -26,7 +26,8 @@ let MatterCapDisplay = document.getElementById("matter_cap");
 let AntimatterCapDisplay = document.getElementById("antimatter_cap");
 
 let EnumaratorCountDisplay = document.getElementById("enumerator_count");
-let enumeratorCostDisplay = document.getElementById("enumerator_cost");
+let EnumeratorCostDisplay = document.getElementById("enumerator_cost");
+let AnnihilationMultiplierCostDisplay = document.getElementById("annihilation_multiplier_cost");
 
 // Hide shop items
 document.getElementById("shop_enumerator").style.display = "none";
@@ -43,6 +44,7 @@ const updateDisplay = () => {
 	LightDisplay.innerText = roundOff(data["resources"]["light"], 4).toString();
 	AnnihilationSpeedDisplay.innerText = (data["annihilation"]["speed"]).toString();
 	AnnihilationMultiplierDisplay.innerText = data["annihilation"]["multiplier"].toString();
+	AnnihilationMultiplierCostDisplay.innerText = fib[data["annihilation"]["multiplierCount"]];
 	EnumaratorCountDisplay.innerText = data["enumerators"]["count"].toString();
 
 	// Caps
@@ -57,7 +59,7 @@ const updateDisplay = () => {
 	resourceUnlocks(data["resources"], data["upgrades"], data["visible"]);
 
 	// Enumerator cost
-	enumeratorCostDisplay.innerText = (data["enumerators"]["count"] * data["enumerators"]["count"]) + 20;
+	EnumeratorCostDisplay.innerText = (data["enumerators"]["count"] * data["enumerators"]["count"]) + 20;
 }
 
 const buyEnumerator = () => {

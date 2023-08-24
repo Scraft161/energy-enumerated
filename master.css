@@ -48,3 +48,16 @@ div.data>div>div {
 div.data>div>div>ul {
 	list-style-type: none;
 }
+
+/* Statistics */
+div.statistics>div {
+	text-align: center;
+}
+
+#gen_breakdown {
+	margin: auto;
+}
+
+#gen_breakdown>tbody>tr>td:nth-child(1) {
+	text-align: right;
+}

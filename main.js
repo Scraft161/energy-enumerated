@@ -30,6 +30,10 @@ let EnumaratorCountDisplay = document.getElementById("enumerator_count");
 let EnumeratorCostDisplay = document.getElementById("enumerator_cost");
 let AnnihilationMultiplierCostDisplay = document.getElementById("annihilation_multiplier_cost");
 
+let StatEnergyTick = document.getElementById("stat_energy_tick");
+let GenEnumeratorTick = document.getElementById("gen_enumerator_tick");
+let GenAnnihilationTick = document.getElementById("gen_annihilation_tick");
+
 // Hide shop items
 document.getElementById("shop_enumerator").style.display = "none";
 
@@ -61,6 +65,14 @@ const updateDisplay = () => {
 
 	// Enumerator cost
 	EnumeratorCostDisplay.innerText = (data["enumerators"]["count"] * data["enumerators"]["count"]) + 20;
+
+	// Statistics
+	let genEnumeratorTick = data["enumerators"]["count"] * 0.1;
+	let genAnnihilationTick = data["annihilation"]["speed"] * data["annihilation"]["multiplier"];
+
+	StatEnergyTick.innerText = roundOff(genEnumeratorTick + genAnnihilationTick, 2);
+	GenEnumeratorTick.innerText = genEnumeratorTick;
+	GenAnnihilationTick.innerText = genAnnihilationTick;
 }
 
 const buyEnumerator = () => {

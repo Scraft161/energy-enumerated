@@ -97,7 +97,30 @@
 		</div>
 		<div class="statistics">
 			<h3>Statistics</h3>
-			Nothing here yet, come back later.
+			<div>
+				t/s: <span id="stat_tick_second">1</span>
+				<h4>Generation</h4>
+				Energy/t: <span id="stat_energy_tick">0</span>
+				<br>
+				<br>
+				<table id="gen_breakdown">
+					<thead>
+						<tr>
+							<th>Breakdown</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="enumerators">
+							<td>Energy Enumerator:</td>
+							<td><span class="number" id="gen_enumerator_tick">0</span>/t</td>
+						</tr>
+						<tr class="annihilation">
+							<td>Annihilation:</td>
+							<td><span class="number" id="gen_annihilation_tick">0</span>/t</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 			<hr>
 		</div>
 		<div class="about">

@@ -1,8 +1,9 @@
 /* Main game script file
 */
 
-// precalculated list of fibonacci numbers.
+// precalculated list of number sequences.
 const fib = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987];
+//const funi = [13, 34, 42, 63, 69, 161, 420, 573, 727, 1116, 1337, 177013];
 
 var data
 

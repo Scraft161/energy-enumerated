@@ -35,6 +35,7 @@ div.resources {
 	display: none;
 }
 
+/* Save */
 div.data>div {
 	display: flex;
 }

@@ -82,15 +82,16 @@
 						</li>
 					</ul>
 				</div>
-				<div style="display: none">
+				<div>
 					<h5>Import &amp; Export</h5>
 					doesn't work yet
 					<ul>
 						<li>
-							<button>Import</button>
+							<input type="text" id="save_input">
+							<button onClick="importSave(); updateDisplay()">Import</button>
 						</li>
 						<li>
-							<button>Export</button>
+							<button onclick="exportSave();">Export</button>
 						</li>
 				</div>
 			</div>
@@ -132,7 +133,6 @@
 				Light: Extra resource, used to buy upgrades, and increase resource limits
 			</p>
 			<p>Join our <a href="https://discord.gg/XCukkqpBJq" target="_blank">Discord server</a> for news, updates, and community discussion</p>
-			<p>PS: Saving/Loading is a work in progress, save data may be lost</p>
 		</div>
 	</body>
 	<script src="upgrades.js"></script>

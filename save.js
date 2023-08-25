@@ -71,3 +71,87 @@ const clearSave = () => {
 	localStorage.setItem("data", JSON.stringify(null));
 	location.reload();
 }
+
+// Taken from https://stackoverflow.com/a/53490958
+async function sha256(message) {
+	// encode as UTF-8
+	const msgBuffer = new TextEncoder().encode(message);
+
+	// hash the message
+	const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+
+	// convert ArrayBuffer to Array
+	const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+	// convert bytes to hex string
+	const hashHex = hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
+	return hashHex;
+}
+
+// Very rudimentary export for testing
+async function exportSave() {
+	// Order our JSON objects
+	let save = data;
+	let saveKeys = Object.keys(save).sort();
+	let output = [], prop;
+	for (let i = 0; i < saveKeys.length; i++) {
+		prop = saveKeys[i];
+		output.push(prop);
+		output.push(save[prop]);
+	}
+
+	// Stringify & compute hash
+	save = JSON.stringify(save);
+	
+	//sha256(save).then(hash => save = save + hash);
+
+	let saveHash = await sha256(save);
+	save += saveHash;
+
+	save = "eeSave" + btoa(save);
+
+	// Copy the save text to clipboard
+	navigator.clipboard.writeText(save);
+
+	alert("Save copied to clipboard")
+}
+
+async function importSave() {
+	let copyText = document.getElementById("save_input")
+	copyText.select();
+	copyText.setSelectionRange(0, 99999); // Mobile
+	let save = copyText.value;
+
+	// Reject data that doesn't start with "eeSave"
+	if (save.startsWith("eeSave")) {
+		// Trim eeSave
+		save = save.replace(/^eeSave/, "");
+	} else {
+		alert("Save not valid");
+		return;
+	}
+
+	// Decode B64
+	save = atob(save);
+
+	let saveHash = save.slice(-64);
+	save = save.slice(0, -64);
+
+	// Validate save data
+	let computedSaveHash = await sha256(save);
+
+	console.log(save);
+	console.log(saveHash);
+
+	if (saveHash != computedSaveHash) {
+		alert("Save not valid");
+		console.log("Computed hash " + computedSaveHash + " did not match hash in save " + saveHash);
+		return;
+	}
+
+	// Decode save data
+	save = JSON.parse(save);
+
+	data = save;
+	writeSave();
+}

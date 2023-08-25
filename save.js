@@ -154,4 +154,5 @@ async function importSave() {
 
 	data = save;
 	writeSave();
+	updateDisplay();
 }

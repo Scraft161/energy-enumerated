@@ -101,4 +101,10 @@ const resourceUnlocks = (resources, upgrades, visible) => {
 	if (resources["light"] >= 0.05 && !upgrades["antimatterCap2"] === true) {
 		document.getElementById("upgrade_antimatter_cap_2").style.display = "block";
 	}
+	if (resources["light"] >= 0.075 && !upgrades["annihilationSpeed2"] === true) {
+		document.getElementById("upgrade_annihilation_speed_2").style.display = "block";
+	}
+	if (resources["light"] >= 0.12 && !upgrades["energyCap3"] === true) {
+		document.getElementById("upgrade_energy_cap_3").style.display = "block";
+	}
 }

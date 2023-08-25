@@ -41,6 +41,18 @@ const upgradeEnergyCap2 = () => {
 	updateDisplay();
 }
 
+const upgradeEnergyCap3 = () => {
+	let unlockElement = document.getElementById("upgrade_energy_cap_3");
+
+	if (data["resources"]["light"] >= 0.2) {
+		data["caps"]["energy"] = 1000;
+		data["resources"]["light"] -= 0.2;
+		data["upgrades"]["energyCap3"] = true;
+		unlockElement.style.display = "none";
+	}
+	updateDisplay();
+}
+
 /// Antimatter cap increases
 const upgradeAntimatterCap1 = () => {
 	let unlockElement = document.getElementById("upgrade_antimatter_cap_1");
@@ -80,6 +92,19 @@ const upgradeAnnihilationSpeed1 = () => {
 	// Unlock multiplier button
 	document.getElementById("upgrade_annihilation_multiplier").style.display = "block";
 	data["visible"]["annihilationMultiplier"] = true;
+	updateDisplay();
+}
+
+const upgradeAnnihilationSpeed2 = () => {
+	let unlockElement = document.getElementById("upgrade_annihilation_speed_2");
+
+	if (data["resources"]["light"] >= 0.1) {
+		data["annihilation"]["speed"] = 0.05;
+		data["resources"]["light"] -= 0.1;
+		data["upgrades"]["annihilationSpeed2"] = true;
+		unlockElement.style.display = "none";
+	}
+
 	updateDisplay();
 }
 

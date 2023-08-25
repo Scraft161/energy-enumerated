@@ -71,8 +71,8 @@ const updateDisplay = () => {
 	let genAnnihilationTick = data["annihilation"]["speed"] * data["annihilation"]["multiplier"];
 
 	StatEnergyTick.innerText = roundOff(genEnumeratorTick + genAnnihilationTick, 2);
-	GenEnumeratorTick.innerText = genEnumeratorTick;
-	GenAnnihilationTick.innerText = genAnnihilationTick;
+	GenEnumeratorTick.innerText = roundOff(genEnumeratorTick, 2);
+	GenAnnihilationTick.innerText = roundOff(genAnnihilationTick, 2);
 }
 
 const buyEnumerator = () => {

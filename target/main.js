@@ -43,16 +43,27 @@ document.getElementById("shop_enumerator").style.display = "none";
 document.getElementById("upgrade_antimatter_unlock").style.display = "";
 document.getElementById("upgrade_energy_cap_1").style.display = "";
 function updateDisplay() {
+    // Incrementals
     EnergyDisplay.innerText = data.resources.energy;
     MatterDisplay.innerText = data.resources.matter;
     AntimatterDisplay.innerText = data.resources.antimatter;
     LightDisplay.innerText = data.resources.light;
+    // Caps
+    EnergyCapDisplay.innerText = data.caps.energy;
+    MatterCapDisplay.innerText = data.caps.matter;
+    AntimatterCapDisplay.innerText = data.caps.antimatter;
+    // Generators
     EnumeratorCountDisplay.innerText = data.enumerators.count;
     AnnihilationSpeedDisplay.innerText = data.annihilation.speed;
     AnnihilationMultiplierDisplay.innerText = data.annihilation.multiplier;
+    // Progress bars
     EnergyProgress.setAttribute("value", data.resources.energy);
     MatterProgress.setAttribute("value", data.resources.matter);
     AntimatterProgress.setAttribute("value", data.resources.antimatter);
+    // Progress bar caps
+    EnergyProgress.setAttribute("max", data.caps.energy);
+    MatterProgress.setAttribute("max", data.caps.matter);
+    AntimatterProgress.setAttribute("max", data.caps.antimatter);
     if (data.visible.annihilationMultiplier === true) {
         document.getElementById("upgrade_annihilation_multiplier").style.display = "block";
     }

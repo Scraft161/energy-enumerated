@@ -9,6 +9,7 @@
 	<body>
 		<div class="header">
 			<h2>You have <span class="number" id="main_number">0</span> energy</h2>
+			<progress id="energy_progress" max=100 value=0></progress>
 			<h5>Cap: <span class="number" id="energy_cap">100</span></h5>
 			<button onClick="incrementEnergyButton()">Enumerate Energy</button>
 			<div id="shop">
@@ -24,6 +25,7 @@
 		<div class="resources">
 			<div class="resources-left resources-item matter" id="div_matter">
 				<h3>Matter <span class="number" id="matter_number">0</span></h3>
+				<progress id="matter_progress" max=10 value=0></progress>
 				<h5>Cap: <span class="number" id="matter_cap">10</span></h5>
 				<button onClick="energyToMatter(100)">Condense Energy (100E -&gt; 1M)</button>
 			</div>
@@ -37,6 +39,7 @@
 			</div>
 			<div class="resources-right resources-item antimatter" id="div_antimatter">
 				<h3>Antimatter <span class="number" id="antimatter_number">0</span></h3>
+				<progress id="antimatter_progress" max=1 value=0></progress>
 				<h5>Cap: <span class="number" id="antimatter_cap">1</span></h5>
 				<button id="condense_antimatter_button" onClick="energyToAntimatter(100)">Condense Energy (100E -&gt; 1AM)</button>
 			</div>
@@ -140,9 +143,9 @@
 			<p>Join our <a href="https://discord.gg/XCukkqpBJq" target="_blank">Discord server</a> for news, updates, and community discussion</p>
 		</div>
 	</body>
-	<script src="upgrades.js"></script>
-	<script src="resources.js"></script>
-	<script src="save.js"></script>
+	<script src="./target/upgrades.js"></script>
+	<script src="./target/resources.js"></script>
+	<script src="./target/save.js"></script>
 	<!-- main needs to be loaded last -->
-	<script src="main.js"></script>
+	<script src="./target/main.js"></script>
 </html>

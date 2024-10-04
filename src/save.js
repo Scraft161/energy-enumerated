@@ -44,7 +44,7 @@ const loadSave = () => {
 	data = JSON.parse(localStorage.getItem("data"));
 
 	// Add possibly missing data to the save
-	if (data["annihilation"]["multiplierCount"] == undefined) {
+	if (data["annihilation"]["multiplierCount"] == null) {
 		data["annihilation"]["multiplierCount"] = 1;
 		console.log("Updated save data");
 	}

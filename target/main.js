@@ -1,6 +1,6 @@
 "use strict";
-//import { incrementEnergy } from './resources.js';
-//import { newSave, loadSave, writeSave } from './save.js';
+// precalculated list of number sequences.
+const fib = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765];
 var data;
 let data_raw = localStorage.getItem("data");
 // Either retrieve data from localStrorage, or fall back to default.
@@ -24,11 +24,13 @@ const LightDisplay = document.getElementById("light_number");
 const EnergyCapDisplay = document.getElementById("energy_cap");
 const MatterCapDisplay = document.getElementById("matter_cap");
 const AntimatterCapDisplay = document.getElementById("antimatter_cap");
+const LightCapDisplay = document.getElementById("light_cap");
 // Generators
 const EnumeratorCountDisplay = document.getElementById("enumerator_count");
 const EnumeratorCostDisplay = document.getElementById("enumerator_cost");
 const AnnihilationSpeedDisplay = document.getElementById("annihilation_speed");
 const AnnihilationMultiplierDisplay = document.getElementById("annihilation_multiplier");
+const AnnihilationMultiplierCostDisplay = document.getElementById("annihilation_multiplier_cost");
 // Statistics
 const StatEnergyTick = document.getElementById("stat_energy_tick");
 const GenEnumeratorTick = document.getElementById("gen_enumerator_tick");
@@ -37,6 +39,7 @@ const GenAnnihilationTick = document.getElementById("gen_annihilation_tick");
 const EnergyProgress = document.getElementById("energy_progress");
 const MatterProgress = document.getElementById("matter_progress");
 const AntimatterProgress = document.getElementById("antimatter_progress");
+const LightProgress = document.getElementById("light_progress");
 // Hide shop items
 document.getElementById("shop_enumerator").style.display = "none";
 // Hide upgrades
@@ -52,18 +55,22 @@ function updateDisplay() {
     EnergyCapDisplay.innerText = data.caps.energy;
     MatterCapDisplay.innerText = data.caps.matter;
     AntimatterCapDisplay.innerText = data.caps.antimatter;
+    LightCapDisplay.innerText = data.caps.light;
     // Generators
     EnumeratorCountDisplay.innerText = data.enumerators.count;
     AnnihilationSpeedDisplay.innerText = data.annihilation.speed;
     AnnihilationMultiplierDisplay.innerText = data.annihilation.multiplier;
+    AnnihilationMultiplierCostDisplay.innerText = fib[data.annihilation.multiplierCount].toString();
     // Progress bars
     EnergyProgress.setAttribute("value", data.resources.energy);
     MatterProgress.setAttribute("value", data.resources.matter);
     AntimatterProgress.setAttribute("value", data.resources.antimatter);
+    LightProgress.setAttribute("value", data.resources.light);
     // Progress bar caps
     EnergyProgress.setAttribute("max", data.caps.energy);
     MatterProgress.setAttribute("max", data.caps.matter);
     AntimatterProgress.setAttribute("max", data.caps.antimatter);
+    LightProgress.setAttribute("max", data.caps.light);
     if (data.visible.annihilationMultiplier === true) {
         document.getElementById("upgrade_annihilation_multiplier").style.display = "block";
     }

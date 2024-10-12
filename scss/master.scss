@@ -1,0 +1,50 @@
+@use 'layout';
+
+body {
+	font-family: sans-serif;
+	background-color: #1a1b26;
+	color: #a9b1d6;
+	margin: 0;
+}
+
+hr {
+	color: #24283b;
+	border-top: 1px solid;
+}
+
+button {
+	padding: 5px 12px;
+	background-color: #24283b;
+	color: inherit;
+	border: 1px solid #414868;
+	border-radius: 7px;
+
+	.ingredient-list {
+		padding-left: 5px;
+		margin-top: 5px;
+		margin-bottom: 0;
+	}
+}
+
+progress[value] {
+	appearance: none;
+	height: 10px;
+	background-color: #24283b;
+	//color: #7aa2f7;
+	accent-color: #FF0000;
+	border: 1px solid #414868;
+	border-radius: 8px;
+
+	/* Firefox */
+	&::-moz-progress-bar {
+		background-color: #7aa2f7;
+	}
+
+	/* Webkit and Blink */
+	&::-webkit-progress-bar {
+		background-color: #7aa2f7;
+	}
+	&::-webkit-progress-value {
+		background-color: #7aa2f7;
+	}
+}

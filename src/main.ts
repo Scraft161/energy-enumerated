@@ -25,7 +25,7 @@ const LightDisplay      = document.getElementById("light_number"     )!;
 const EnergyCapDisplay     = document.getElementById("energy_cap"    )!;
 const MatterCapDisplay     = document.getElementById("matter_cap"    )!;
 const AntimatterCapDisplay = document.getElementById("antimatter_cap")!;
-const LightCapDisplay      = document.getElementById("light_cap"     )!;
+//const LightCapDisplay      = document.getElementById("light_cap"     )!;
 // Generators
 const EnumeratorCountDisplay            = document.getElementById("enumerator_count"            )!;
 const EnumeratorCostDisplay             = document.getElementById("enumerator_cost"             )!;
@@ -40,7 +40,7 @@ const GenAnnihilationTick = document.getElementById("gen_annihilation_tick")!;
 const EnergyProgress     = document.getElementById("energy_progress"    )!;
 const MatterProgress     = document.getElementById("matter_progress"    )!;
 const AntimatterProgress = document.getElementById("antimatter_progress")!;
-const LightProgress      = document.getElementById("light_progress"     )!;
+//const LightProgress      = document.getElementById("light_progress"     )!;
 
 // Hide shop items
 document.getElementById("shop_enumerator")!.style.display = "none";
@@ -60,7 +60,7 @@ function updateDisplay() {
 	EnergyCapDisplay.innerText     = data.caps.energy;
 	MatterCapDisplay.innerText     = data.caps.matter;
 	AntimatterCapDisplay.innerText = data.caps.antimatter;
-	LightCapDisplay.innerText      = data.caps.light;
+	//LightCapDisplay.innerText      = data.caps.light;
 
 	// Generators
 	EnumeratorCountDisplay.innerText            = data.enumerators.count;
@@ -72,12 +72,12 @@ function updateDisplay() {
 	EnergyProgress.setAttribute("value", data.resources.energy);
 	MatterProgress.setAttribute("value", data.resources.matter);
 	AntimatterProgress.setAttribute("value", data.resources.antimatter);
-	LightProgress.setAttribute("value", data.resources.light);
+	//LightProgress.setAttribute("value", data.resources.light);
 	// Progress bar caps
 	EnergyProgress.setAttribute("max", data.caps.energy);
 	MatterProgress.setAttribute("max", data.caps.matter);
 	AntimatterProgress.setAttribute("max", data.caps.antimatter);
-	LightProgress.setAttribute("max", data.caps.light);
+	//LightProgress.setAttribute("max", data.caps.light);
 
 	if (data.visible.annihilationMultiplier === true) {
 		document.getElementById("upgrade_annihilation_multiplier")!.style.display = "block";
